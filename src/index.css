@@ -83,3 +83,12 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); curso
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
 :focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; }
+
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
