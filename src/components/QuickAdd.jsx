@@ -5,7 +5,7 @@ import CategoryIcon from './CategoryIcon'
 import { supabase } from '../lib/supabase'
 
 export default function QuickAdd({ onClose, editData = null }) {
-  const { categories, addTransaction, updateTransaction, profile } = useAppStore()
+  const { categories, addTransaction, updateTransaction, deleteTransaction, profile } = useAppStore()
   const isEditing = !!editData
 
   const [type, setType] = useState(editData?.type || 'expense')
@@ -17,6 +17,12 @@ export default function QuickAdd({ onClose, editData = null }) {
 
   const filteredCats = categories.filter((c) => c.type === type)
   const currencySymbol = profile?.currency === 'GBP' ? '£' : profile?.currency === 'EUR' ? '€' : '$'
+
+  const handleDelete = async () => {
+    if (!editData) return
+    await deleteTransaction(editData.id)
+    onClose()
+  }
 
   const handleSubmit = async () => {
     if (!amount || amount === '0' || !categoryId) return
@@ -34,6 +40,18 @@ export default function QuickAdd({ onClose, editData = null }) {
     else await addTransaction(payload)
     onClose()
   }
+
+  
+  useEffect(() => {
+    // Lock body scroll when modal mounts
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+    return () => {
+      // Restore body scroll when modal unmounts
+      document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
+    }
+  }, [])
 
   useEffect(() => {
     if (!isEditing && filteredCats.length > 0 && !categoryId) {
@@ -61,10 +79,10 @@ export default function QuickAdd({ onClose, editData = null }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-bg/90 backdrop-blur-sm p-0 md:p-4">
+      className="fixed inset-0 z-50 flex items-center justify-center bg-bg/90 backdrop-blur-sm p-4">
       
       <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        className="w-full max-w-4xl bg-surface-1 border-t md:border border-border rounded-t-3xl md:rounded-md flex flex-col md:flex-row h-[90vh] md:h-[600px] shadow-2xl overflow-hidden">
+        className="w-full max-w-4xl bg-surface-1 border border-border rounded-xl flex flex-col md:flex-row h-auto max-h-[90dvh] shadow-2xl overflow-hidden">
         
         {/* Desktop Numpad Section (Hidden on Mobile) */}
         <div className="hidden md:flex flex-1 border-r border-border p-8 flex-col justify-center bg-bg">
@@ -118,20 +136,20 @@ export default function QuickAdd({ onClose, editData = null }) {
         </div>
 
         {/* Details Section (Scrollable on Mobile) */}
-        <div className="flex-1 p-6 md:p-8 flex flex-col bg-surface-1 overflow-y-auto">
+        <div className="w-full min-h-0 p-6 md:p-8 flex flex-col bg-surface-1 overflow-y-auto overscroll-contain">
           
           {/* Mobile Drag Handle */}
-          <div className="w-12 h-1.5 bg-border rounded-full mx-auto mb-6 md:hidden"></div>
+          
 
-          <div className="flex justify-between items-center mb-6 md:mb-8">
-            <h2 className="font-display text-[28px] md:text-[32px] text-text m-0 leading-none">{isEditing ? 'Edit Entry' : 'New Entry'}</h2>
+          <div className="flex justify-between items-center mb-5 md:mb-8">
+            <h2 className="font-display text-[24px] md:text-[32px] text-text m-0 leading-none">{isEditing ? 'Edit Entry' : 'New Entry'}</h2>
             <button onClick={onClose} className="font-mono text-[11px] tracking-[0.06em] text-text-dim uppercase hover:text-text transition-colors">
               X
             </button>
           </div>
 
           {/* Mobile-Only Type Toggle & Amount Input */}
-          <div className="md:hidden flex flex-col gap-8 mb-8 pb-8 border-b border-border">
+          <div className="md:hidden flex flex-col gap-6 mb-6 pb-6 border-b border-border">
             <div className="flex bg-surface-2 p-1 rounded-md">
               <button onClick={() => setType('expense')}
                 className={`flex-1 py-2.5 font-mono text-[11px] tracking-[0.06em] uppercase rounded-sm transition-all cursor-pointer outline-none ${
@@ -144,7 +162,7 @@ export default function QuickAdd({ onClose, editData = null }) {
             </div>
             
             <div className="text-center flex justify-center items-center">
-              <span className="font-display text-[48px] text-text/50 leading-none mr-2">{currencySymbol}</span>
+              <span className="font-display text-[32px] text-text/50 leading-none mr-2">{currencySymbol}</span>
               <input
                 type="text"
                 inputMode="decimal"
@@ -161,13 +179,13 @@ export default function QuickAdd({ onClose, editData = null }) {
                 onBlur={(e) => {
                   if(!e.target.value) setAmount('0')
                 }}
-                className="font-display text-[48px] text-text leading-none bg-transparent outline-none w-[180px] text-left cursor-text border-b-2 border-transparent focus:border-accent transition-colors"
+                className="font-display text-[32px] text-text leading-none bg-transparent outline-none w-[180px] text-left cursor-text border-b-2 border-transparent focus:border-accent transition-colors"
                 placeholder="0"
               />
             </div>
           </div>
 
-          <div className="space-y-8 flex-1">
+          <div className="space-y-6 md:space-y-8">
             <div>
               <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-3">Category</label>
               <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-3 pb-2 hide-scrollbar">
@@ -185,7 +203,7 @@ export default function QuickAdd({ onClose, editData = null }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-3 md:gap-6">
               <div>
                 <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-3">Date</label>
                 <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
@@ -208,10 +226,23 @@ export default function QuickAdd({ onClose, editData = null }) {
             </label>
           </div>
 
-          <button onClick={handleSubmit}
-            className="w-full mt-8 luxury-btn luxury-btn-primary py-4 cursor-pointer hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white outline-none active:scale-[0.98]">
-            {isEditing ? 'Save Changes' : `Save ${type}`}
-          </button>
+          {isEditing ? (
+            <div className="mt-6 md:mt-8 flex gap-4">
+              <button onClick={handleDelete}
+                className="flex-[0.5] md:flex-1 border border-red text-red font-mono text-[11px] tracking-[0.06em] uppercase py-3 md:py-4 rounded-sm hover:bg-red/10 transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-red">
+                Delete
+              </button>
+              <button onClick={handleSubmit}
+                className="flex-1 md:flex-[2] luxury-btn luxury-btn-primary py-2.5 md:py-4 cursor-pointer hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white outline-none active:scale-[0.98]">
+                Save Changes
+              </button>
+            </div>
+          ) : (
+            <button onClick={handleSubmit}
+              className="w-full mt-6 md:mt-8 luxury-btn luxury-btn-primary py-2.5 md:py-4 cursor-pointer hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white outline-none active:scale-[0.98]">
+              Save {type}
+            </button>
+          )}
         </div>
       </motion.div>
     </motion.div>
