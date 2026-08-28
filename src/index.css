@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0B0C10;
+  --surface-1: #14161C;
+  --surface-2: #1C1F27;
+  --border: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.14);
+  --text: #F3F1EC;
+  --text-dim: #8C8F99;
+  --text-dimmer: #5D6070;
+  --accent: #8B7CF6;
+  --accent-soft: rgba(139,124,246,0.14);
+  --green: #6FCF97;
+  --red: #E27D6F;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .section {
+    @apply py-7;
+  }
+  .section + .section {
+    @apply border-t border-border;
+  }
+  
+  .section-label, .eyebrow {
+    @apply font-mono text-[16px] tracking-[0.08em] text-text-dim uppercase mb-3.5;
+  }
+  
+  .luxury-btn {
+    @apply font-mono text-[16px] tracking-[0.06em] text-text-dim uppercase px-4 py-2.5 rounded-sm transition-all;
+  }
+  
+  .luxury-btn-primary {
+    @apply bg-accent text-[#0B0C10] font-medium shadow-[0_12px_32px_rgba(139,124,246,0.35)];
+  }
+
+  .txn-row {
+    @apply flex justify-between items-center px-4 py-3.5 rounded-sm -mx-4 transition-colors;
+  }
+  .txn-row:hover {
+    @apply bg-surface-2;
+  }
+  .txn-icon {
+    @apply w-9 h-9 rounded-sm bg-surface-2 flex items-center justify-center text-accent flex-shrink-0;
+  }
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); border-left: 1px solid var(--border); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--radius-sm); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dimmer); }
+
+input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; }
