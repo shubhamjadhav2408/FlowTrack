@@ -203,13 +203,13 @@ export default function QuickAdd({ onClose, editData = null }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
+            <div className="grid grid-cols-2 gap-3 md:gap-6">
+              <div className="min-w-0">
                 <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-3">Date</label>
                 <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
                   className="w-full bg-surface-2 border border-border rounded-md px-4 py-3 text-text outline-none focus:border-accent transition-colors cursor-pointer" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-3">Note</label>
                 <input type="text" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Optional detail"
                   className="w-full bg-surface-2 border border-border rounded-md px-4 py-3 text-text outline-none focus:border-accent transition-colors placeholder-text-dimmer" />
