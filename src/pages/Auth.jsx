@@ -20,12 +20,12 @@ export default function Auth() {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
-        setSuccess(true)
       } else {
         const { error } = await supabase.auth.signUp({
           email, password, options: { data: { full_name: fullName, currency: 'USD' } }
         })
         if (error) throw error
+        setSuccess(true)
       }
     } catch (err) {
       setError(err.message)
