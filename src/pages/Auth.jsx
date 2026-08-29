@@ -9,16 +9,18 @@ export default function Auth() {
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    setError(null)
+    setError(null); setSuccess(false)
     
     try {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
+        setSuccess(true)
       } else {
         const { error } = await supabase.auth.signUp({
           email, password, options: { data: { full_name: fullName, currency: 'USD' } }
@@ -72,6 +74,12 @@ export default function Auth() {
               className="w-full bg-surface-2 border border-border rounded-md px-4 py-3 text-text outline-none focus:border-accent transition-colors" />
           </div>
 
+          {success && !isLogin && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 bg-green-500/10 border border-green-500/20 rounded-sm text-[13px] text-green-400 text-center">
+              Account created! Please check your email to verify your account before signing in.
+            </motion.div>
+          )}
+
           {error && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-3 bg-red/10 border border-red/20 rounded-sm text-[13px] text-red">
               {error}
@@ -85,7 +93,7 @@ export default function Auth() {
         </form>
 
         <div className="mt-8 text-center">
-          <button type="button" onClick={() => { setIsLogin(!isLogin); setError(null) }}
+          <button type="button" onClick={() => { setIsLogin(!isLogin); setError(null); setSuccess(false) }}
             className="font-mono text-[11px] tracking-[0.06em] text-text-dim uppercase cursor-pointer hover:text-text transition-colors">
             {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
           </button>

@@ -141,7 +141,7 @@ export default function QuickAdd({ onClose, editData = null }) {
           {/* Mobile Drag Handle */}
           
 
-          <div className="flex justify-between items-center mb-5 md:mb-8">
+          <div className="flex justify-between items-center mb-3 md:mb-8">
             <h2 className="font-display text-[24px] md:text-[32px] text-text m-0 leading-none">{isEditing ? 'Edit Entry' : 'New Entry'}</h2>
             <button onClick={onClose} className="font-mono text-[11px] tracking-[0.06em] text-text-dim uppercase hover:text-text transition-colors">
               X
@@ -149,7 +149,7 @@ export default function QuickAdd({ onClose, editData = null }) {
           </div>
 
           {/* Mobile-Only Type Toggle & Amount Input */}
-          <div className="md:hidden flex flex-col gap-6 mb-6 pb-6 border-b border-border">
+          <div className="md:hidden flex flex-col gap-4 mb-4 pb-4 border-b border-border">
             <div className="flex bg-surface-2 p-1 rounded-md">
               <button onClick={() => setType('expense')}
                 className={`flex-1 py-2.5 font-mono text-[11px] tracking-[0.06em] uppercase rounded-sm transition-all cursor-pointer outline-none ${
@@ -185,13 +185,13 @@ export default function QuickAdd({ onClose, editData = null }) {
             </div>
           </div>
 
-          <div className="space-y-4 md:space-y-8">
+          <div className="space-y-3 md:space-y-8">
             <div>
               <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-1.5">Category</label>
               <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-3 pb-2 hide-scrollbar">
                 {filteredCats.map((c) => (
                   <button key={c.id} onClick={() => setCategoryId(c.id)}
-                    className={`flex-shrink-0 flex items-center gap-2 p-2.5 rounded-sm border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-accent outline-none ${
+                    className={`flex-shrink-0 flex items-center gap-2 p-2 rounded-sm border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-accent outline-none ${
                       categoryId === c.id ? 'border-accent bg-accent text-[#0B0C10]' : 'border-border text-text hover:border-border-strong bg-surface-2'
                     }`}>
                     <div className={categoryId === c.id ? "text-[#0B0C10]" : "text-accent"}>
@@ -207,12 +207,12 @@ export default function QuickAdd({ onClose, editData = null }) {
               <div className="w-full max-w-full">
                 <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-1.5">Date</label>
                 <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
-                  className="w-full max-w-full box-border block appearance-none bg-surface-2 border border-border rounded-md px-3 py-2.5 text-text outline-none focus:border-accent transition-colors cursor-pointer" />
+                  className="w-full max-w-full box-border block appearance-none bg-surface-2 border border-border rounded-md px-3 py-2 text-text outline-none focus:border-accent transition-colors cursor-pointer" />
               </div>
               <div className="w-full max-w-full">
                 <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-1.5">Note</label>
                 <input type="text" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Optional detail"
-                  className="w-full bg-surface-2 border border-border rounded-md px-3 py-2.5 text-text outline-none focus:border-accent transition-colors placeholder-text-dimmer" />
+                  className="w-full bg-surface-2 border border-border rounded-md px-3 py-2 text-text outline-none focus:border-accent transition-colors placeholder-text-dimmer" />
               </div>
             </div>
 
