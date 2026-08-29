@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { format, isToday, isYesterday, parseISO } from 'date-fns'
 import { useAppStore } from '../stores/useAppStore'
 import { useState } from 'react'
+import { Pencil, Trash2 } from 'lucide-react'
 import CategoryIcon from './CategoryIcon'
 
 function groupByDate(transactions) {
@@ -18,7 +19,7 @@ function formatDateLabel(dateStr) {
 }
 
 export default function TransactionList({ transactions = [], onEdit }) {
-  const { profile } = useAppStore()
+  const { profile, deleteTransaction } = useAppStore()
   const groups = groupByDate(transactions)
 
   const currencySymbol = profile?.currency === 'EUR' ? '€' : profile?.currency === 'GBP' ? '£' : profile?.currency === 'INR' ? '₹' : '$'
@@ -66,8 +67,23 @@ export default function TransactionList({ transactions = [], onEdit }) {
                       </div>
                     </div>
 
-                    <div className={`font-mono text-[16px] lg:text-[18px] ${t.type === 'income' ? 'text-green' : 'text-text'}`}>
-                      {t.type === 'income' ? '+' : '−'}{fmt(t.amount)}
+                    <div className="flex items-center gap-4">
+                      <div className={`font-mono text-[16px] lg:text-[18px] text-right ${t.type === 'income' ? 'text-green' : 'text-text'}`}>
+                        {t.type === 'income' ? '+' : '−'}{fmt(t.amount)}
+                      </div>
+                      
+                      <div className="flex items-center gap-1.5 transition-opacity">
+                        <button onClick={(e) => { e.stopPropagation(); onEdit?.(t); }} 
+                          className="p-1.5 lg:px-2.5 lg:py-1.5 flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider border border-border text-text-dim hover:text-text hover:border-text-dim rounded-sm transition-colors cursor-pointer">
+                          <Pencil className="w-3.5 h-3.5" />
+                          <span className="hidden lg:inline">Edit</span>
+                        </button>
+                        <button onClick={(e) => { e.stopPropagation(); deleteTransaction(t.id); }} 
+                          className="p-1.5 lg:px-2.5 lg:py-1.5 flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider border border-red/30 text-red hover:bg-red hover:text-[#0B0C10] rounded-sm transition-colors cursor-pointer">
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span className="hidden lg:inline">Del</span>
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 )

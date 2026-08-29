@@ -56,9 +56,21 @@ export default function App() {
       {/* Mobile Header */}
       <header className="lg:hidden flex items-center justify-between p-6 border-b border-border bg-bg sticky top-0 z-30">
         <p className="font-display text-[24px] font-medium tracking-[-0.01em] m-0 leading-none">FlowTrack</p>
-        <button onClick={signOut} className="text-text-dim hover:text-red transition-colors p-2">
-          <LogOut className="w-5 h-5" />
-        </button>
+        <div className="flex items-center gap-3">
+          <select
+            value={profile?.currency || 'USD'}
+            onChange={(e) => updateProfile({ currency: e.target.value })}
+            className="font-mono text-[12px] tracking-[0.06em] bg-surface-1 border border-border rounded-md px-2 py-1.5 outline-none text-text cursor-pointer focus:border-accent"
+          >
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="INR">INR</option>
+          </select>
+          <button onClick={signOut} className="text-text-dim hover:text-red transition-colors p-2">
+            <LogOut className="w-5 h-5" />
+          </button>
+        </div>
       </header>
 
       {/* Desktop Sidebar */}
