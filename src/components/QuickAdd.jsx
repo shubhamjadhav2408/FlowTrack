@@ -185,13 +185,13 @@ export default function QuickAdd({ onClose, editData = null }) {
             </div>
           </div>
 
-          <div className="space-y-6 md:space-y-8">
+          <div className="space-y-4 md:space-y-8">
             <div>
-              <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-3">Category</label>
+              <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-1.5">Category</label>
               <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-3 pb-2 hide-scrollbar">
                 {filteredCats.map((c) => (
                   <button key={c.id} onClick={() => setCategoryId(c.id)}
-                    className={`flex-shrink-0 flex items-center gap-3 p-3 rounded-sm border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-accent outline-none ${
+                    className={`flex-shrink-0 flex items-center gap-2 p-2.5 rounded-sm border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-accent outline-none ${
                       categoryId === c.id ? 'border-accent bg-accent text-[#0B0C10]' : 'border-border text-text hover:border-border-strong bg-surface-2'
                     }`}>
                     <div className={categoryId === c.id ? "text-[#0B0C10]" : "text-accent"}>
@@ -203,16 +203,16 @@ export default function QuickAdd({ onClose, editData = null }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="min-w-0">
-                <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-3">Date</label>
+                <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-1.5">Date</label>
                 <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-surface-2 border border-border rounded-md px-4 py-3 text-text outline-none focus:border-accent transition-colors cursor-pointer" />
+                  className="w-full bg-surface-2 border border-border rounded-md px-3 py-2.5 text-text outline-none focus:border-accent transition-colors cursor-pointer" />
               </div>
               <div className="min-w-0">
-                <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-3">Note</label>
+                <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-1.5">Note</label>
                 <input type="text" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Optional detail"
-                  className="w-full bg-surface-2 border border-border rounded-md px-4 py-3 text-text outline-none focus:border-accent transition-colors placeholder-text-dimmer" />
+                  className="w-full bg-surface-2 border border-border rounded-md px-3 py-2.5 text-text outline-none focus:border-accent transition-colors placeholder-text-dimmer" />
               </div>
             </div>
 
@@ -227,7 +227,7 @@ export default function QuickAdd({ onClose, editData = null }) {
           </div>
 
           {isEditing ? (
-            <div className="mt-6 md:mt-8 flex gap-4">
+            <div className="mt-4 md:mt-8 flex gap-4">
               <button onClick={handleDelete}
                 className="flex-[0.5] md:flex-1 border border-red text-red font-mono text-[11px] tracking-[0.06em] uppercase py-3 md:py-4 rounded-sm hover:bg-red/10 transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-red">
                 Delete
@@ -239,7 +239,7 @@ export default function QuickAdd({ onClose, editData = null }) {
             </div>
           ) : (
             <button onClick={handleSubmit}
-              className="w-full mt-6 md:mt-8 luxury-btn luxury-btn-primary py-2.5 md:py-4 cursor-pointer hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white outline-none active:scale-[0.98]">
+              className="w-full mt-4 md:mt-8 luxury-btn luxury-btn-primary py-2.5 md:py-4 cursor-pointer hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white outline-none active:scale-[0.98]">
               Save {type}
             </button>
           )}
