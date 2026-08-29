@@ -203,7 +203,7 @@ export default function QuickAdd({ onClose, editData = null }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block font-mono text-[11px] tracking-[0.08em] text-text-dim uppercase mb-3">Date</label>
                 <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
