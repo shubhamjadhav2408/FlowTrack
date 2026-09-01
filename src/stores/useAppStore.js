@@ -150,13 +150,16 @@ export const useAppStore = create((set, get) => ({
     const now = new Date()
     const start = startOfMonth(now)
     const end = endOfMonth(now)
+    const pastTransactions = transactions.filter(t => new Date(t.date) < start)
+    const carryover = pastTransactions.reduce((sum, t) => sum + (t.type === 'income' ? Number(t.amount) : -Number(t.amount)), 0)
+
     const thisMonth = transactions.filter((t) => {
       const d = new Date(t.date)
       return d >= start && d <= end
     })
     const income = thisMonth.filter((t) => t.type === 'income').reduce((s, t) => s + Number(t.amount), 0)
     const expense = thisMonth.filter((t) => t.type === 'expense').reduce((s, t) => s + Number(t.amount), 0)
-    return { income, expense, net: income - expense }
+    return { carryover, income, expense, net: income - expense, available: carryover + income - expense }
   },
 
   getSpendingByCategory: () => {

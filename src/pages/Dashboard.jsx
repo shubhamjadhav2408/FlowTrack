@@ -41,20 +41,23 @@ export default function Dashboard({ onEdit }) {
 
       {/* Row 1: Key Metrics */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-[1px] bg-border border border-border rounded-md overflow-hidden">
+        <div className="lg:col-span-3 grid grid-cols-2 lg:grid-cols-4 gap-[1px] bg-border border border-border rounded-md overflow-hidden">
+          <div className="bg-surface-1 p-5 md:p-6">
+            <div className="font-mono text-[14px] lg:text-[16px] tracking-[0.08em] text-text-dim uppercase mb-2">Rollover</div>
+            <div className="font-display text-[32px] lg:text-[42px] tracking-[-0.01em] text-text-dimmer">{fmt(totals.carryover)}</div>
+          </div>
           <div className="bg-surface-1 p-5 md:p-6">
             <div className="font-mono text-[14px] lg:text-[16px] tracking-[0.08em] text-text-dim uppercase mb-2">Income</div>
-            <div className="font-display text-[32px] lg:text-[48px] tracking-[-0.01em]">{fmt(totals.income)}</div>
+            <div className="font-display text-[32px] lg:text-[42px] tracking-[-0.01em]">{fmt(totals.income)}</div>
           </div>
           <div className="bg-surface-1 p-5 md:p-6">
             <div className="font-mono text-[14px] lg:text-[16px] tracking-[0.08em] text-text-dim uppercase mb-2">Expenses</div>
-            <div className="font-display text-[32px] lg:text-[48px] tracking-[-0.01em]">{fmt(totals.expense)}</div>
+            <div className="font-display text-[32px] lg:text-[42px] tracking-[-0.01em]">{fmt(totals.expense)}</div>
           </div>
           <div className="bg-surface-1 p-5 md:p-6">
-            <div className="font-mono text-[14px] lg:text-[16px] tracking-[0.08em] text-text-dim uppercase mb-2">Net</div>
-            <div className={`font-display text-[32px] lg:text-[48px] tracking-[-0.01em] flex items-center gap-2 ${totals.net >= 0 ? 'text-green' : 'text-red'}`}>
-              {totals.net >= 0 ? <ArrowUpRight className="w-5 h-5 lg:w-8 lg:h-8 opacity-50" /> : <ArrowDownRight className="w-5 h-5 lg:w-8 lg:h-8 opacity-50" />}
-              <span>{fmt(Math.abs(totals.net))}</span>
+            <div className="font-mono text-[14px] lg:text-[16px] tracking-[0.08em] text-text-dim uppercase mb-2">Total Balance</div>
+            <div className={`font-display text-[32px] lg:text-[42px] tracking-[-0.01em] ${totals.available >= 0 ? 'text-green' : 'text-red'}`}>
+              {fmt(Math.abs(totals.available))}
             </div>
           </div>
         </div>
